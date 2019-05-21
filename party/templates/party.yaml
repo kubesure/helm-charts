@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: party
+    role: business
+    tier: backend
+  name: party
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: party
+      role: business
+      tier: backend
+  template:
+    metadata:
+      labels:
+        app: party
+        role: business
+        tier: backend
+    spec:
+      containers:
+      - image: party:v1 
+        name: party
+        ports:
+        - containerPort: 50051
+        env:
+        - name: mongopartysvc
+          value: mongo-party-0.mongopartysvc:27017,mongo-party-1.mongopartysvc:27017,mongo-party-2.mongopartysvc:27017
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: party
+    role: business
+    tier: backend
+  name: partysvc
+spec:
+  ports:
+  - port: 50051
+    protocol: TCP
+    targetPort: 50051
+    name: grpc-party
+  selector:
+    app: party
+    role: business
+    tier: backend
