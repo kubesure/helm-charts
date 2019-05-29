@@ -92,7 +92,16 @@ spec:
         - mountPath: /redis-data
           name: data
         - mountPath: /redis-config
-          name: config    
+          name: config
+        livenessProbe:
+          tcpSocket: 
+            port: 6379
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          tcpSocket:
+            port: 6379
+          initialDelaySeconds: 5
       - command: [sh, -c, source /redis-config/sentinel.sh]
         image: redis:3.2.7-alpine
         name: sentinel
@@ -149,6 +158,12 @@ spec:
         env: 
         - name: redissvc
           value: redissvc  
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8000
+          initialDelaySeconds: 3
+          periodSeconds: 3   
 ---
 apiVersion: v1
 kind: Service
