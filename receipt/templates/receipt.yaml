@@ -24,7 +24,7 @@ spec:
       - env:
         - name: mongoreceiptsvc
           value: mongo-receipt-0.mongoreceiptsvc:27017,mongo-receipt-1.mongoreceiptsvc:27017,mongo-receipt-2.mongoreceiptsvc:27017
-        image: receipt:v1
+        image: bikertales/receipt:v1
         name: receipt
         ports:
         - containerPort: 8000
