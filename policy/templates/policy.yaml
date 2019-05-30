@@ -22,7 +22,7 @@ spec:
         type: backend
     spec:
       containers:
-      - image: policy:v1
+      - image: bikertales/policy:v1
         name: policy
         ports:
         - containerPort: 8000
