@@ -159,7 +159,7 @@ spec:
           periodSeconds: 2
           timeoutSeconds: 1
       - name: xtrabackup
-        image: gcr.io/google-samples/xtrabackup:1.0
+        image: bikertales/xtrabackup:1.0
         ports:
         - name: xtrabackup
           containerPort: 3307
