@@ -26,7 +26,7 @@ spec:
           value: mongo-quote-0.mongoquotesvc:27017,mongo-quote-1.mongoquotesvc:27017,mongo-quote-2.mongoquotesvc:27017
         - name: partysvc
           value: partysvc
-        image: quote:v1
+        image: bikertales/quote:v1
         name: quote
         ports:
         - containerPort: 8000
