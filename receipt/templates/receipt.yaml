@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: receipt
+    role: business
+    type: backend
+  name: receipt
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: receipt
+      role: business
+      type: backend
+  template:
+    metadata:
+      labels:
+        app: receipt
+        role: business
+        type: backend
+    spec:
+      containers:
+      - env:
+        - name: mongoreceiptsvc
+          value: mongo-receipt-0.mongoreceiptsvc:27017,mongo-receipt-1.mongoreceiptsvc:27017,mongo-receipt-2.mongoreceiptsvc:27017
+        image: receipt:v1
+        name: receipt
+        ports:
+        - containerPort: 8000
