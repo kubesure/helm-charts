@@ -182,3 +182,4 @@ spec:
     app: premium
     role: business
     type: backend  
+  type: NodePort
