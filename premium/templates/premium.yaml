@@ -173,6 +173,14 @@ metadata:
     role: business
     type: backend
   name: premiumcalc-svc
+  annotations:
+    getambassador.io/config: |
+      apiVersion: ambassador/v1
+      kind: Mapping
+      name: premium-mapping
+      prefix: /api/v1/healths/premiums
+      service: premiumcalc-svc:8000
+      rewrite: ""
 spec:
   ports:
   - port: 8000

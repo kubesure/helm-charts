@@ -4,7 +4,7 @@ metadata:
   labels:
     app: receipt
     role: business
-    type: backend
+    type: service
   name: receipt
 spec:
   replicas: 1
@@ -12,13 +12,13 @@ spec:
     matchLabels:
       app: receipt
       role: business
-      type: backend
+      type: service
   template:
     metadata:
       labels:
         app: receipt
         role: business
-        type: backend
+        type: service
     spec:
       containers:
       - env:
@@ -28,3 +28,30 @@ spec:
         name: receipt
         ports:
         - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: receipt
+    role: business
+    type: service
+  name: receipt-svc
+  annotations:
+    getambassador.io/config: |
+      apiVersion: ambassador/v1
+      kind: Mapping
+      name: receipt-health
+      prefix: /api/v1/receipts
+      service: receipt-svc:8000
+      rewrite: "" 
+spec:
+  ports:
+  - port: 8000
+    name: backend
+    targetPort: 8000
+  selector:
+    app: receipt
+    role: business
+    type: service
+  type: NodePort  
