@@ -4,7 +4,7 @@ metadata:
   labels:
     app: quote
     role: business
-    type: backend
+    type: service
   name: quote
 spec:
   replicas: 1
@@ -12,13 +12,13 @@ spec:
     matchLabels:
       app: quote
       role: business
-      type: backend
+      type: service
   template:
     metadata:
       labels:
         app: quote
         role: business
-        type: backend
+        type: service
     spec:
       containers:
       - env:
@@ -30,3 +30,30 @@ spec:
         name: quote
         ports:
         - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: quote
+    role: business
+    type: service
+  name: quote-svc
+  annotations:
+    getambassador.io/config: |
+      apiVersion: ambassador/v1
+      kind: Mapping
+      name: quote-mapping
+      prefix: /api/v1/healths/quotes
+      service: quote-svc:8000
+      rewrite: "" 
+spec:
+  ports:
+  - port: 8000
+    name: backend
+    targetPort: 8000
+  selector:
+    app: quote
+    role: business
+    type: service
+  type: NodePort
