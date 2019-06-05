@@ -4,7 +4,7 @@ metadata:
   labels:
     app: policy
     role: business
-    type: backend
+    type: service
   name: policy
 spec:
   replicas: 1
@@ -12,14 +12,14 @@ spec:
     matchLabels:
       app: policy
       role: business
-      type: backend
+      type: service
   template:
     metadata:
       creationTimestamp: null
       labels:
         app: policy
         role: business
-        type: backend
+        type: service
     spec:
       containers:
       - image: bikertales/policy:v1
@@ -29,3 +29,30 @@ spec:
         env: 
         - name: mysqlpolicysvc
           value: mysql-0.mysql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: policy
+    role: business
+    type: service
+  name: policy-svc
+  annotations:
+    getambassador.io/config: |
+      apiVersion: ambassador/v1
+      kind: Mapping
+      name: policy-mapping
+      prefix: /api/v1/health/poicies
+      service: policy-svc:8000
+      rewrite: "" 
+spec:
+  ports:
+  - port: 8000
+    name: backend
+    targetPort: 8000
+  selector:
+    app: policy
+    role: business
+    type: service
+  type: NodePort  
