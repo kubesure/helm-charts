@@ -14,3 +14,12 @@ spec:
         backend:
           serviceName: receipt-svc
           servicePort: 8000
+      - path: /api/v1/healths/quotes
+        backend:
+          serviceName: quote-svc
+          servicePort: 8000
+      - path: /api/v1/health/poicies
+        backend:
+          serviceName: policy-svc
+          servicePort: 8000 
+          
