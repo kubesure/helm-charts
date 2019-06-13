@@ -158,12 +158,18 @@ spec:
         env: 
         - name: redissvc
           value: redissvc  
+        readinessProbe:
+          httpGet:
+            path: /api/v1/healths/premiums/loads
+            port: 8000
+          initialDelaySeconds: 10
+          periodSeconds: 10          
         livenessProbe:
           httpGet:
             path: /
             port: 8000
           initialDelaySeconds: 3
-          periodSeconds: 3   
+          periodSeconds: 10  
 ---
 apiVersion: v1
 kind: Service

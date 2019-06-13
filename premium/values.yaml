@@ -1,47 +1,21 @@
-# Default values for premium.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
 redis:
   replicaCount: 3
 premium:
-  replicaCount: 1
+  replicaCount: 2
 
 imagepremium:
-  repository: bikertales/premiumcalc
-  tag: v1
+  repository: premiumcalc
+  tag: v0.2
   pullPolicy: IfNotPresent
 imageredis:
   repository: redis
   tag: 3.2.7-alpine    
 
-imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
-
 service:
   type: ClusterIP
   port: 8000
 
-ingress:
-  enabled: false
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host: chart-example.local
-      paths: []
-
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
-
 resources: {}
-  # We usually recommend not to specify default resources and to leave this as a conscious
-  # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
   # limits:
   #   cpu: 100m
   #   memory: 128Mi
@@ -49,8 +23,3 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}
