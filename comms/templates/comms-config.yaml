@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: comms-kafka-config
+  labels:
+    app: comms
+    role: business
+    tier: event
+data:
+  application.properties: |-
+    spring.kafka.bootstrap-servers=3.81.131.136:9092

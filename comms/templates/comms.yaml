@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: comms
+    role: business
+    type: event
+  name: comms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: comms
+      role: business
+      type: event
+  template:
+    metadata:
+      labels:
+        app: comms
+        role: business
+        type: event
+    spec:
+      volumes:
+      - name: kafka-config
+        configMap:
+          name: comms-kafka-config
+      #- name: aws-config
+        #configMap:
+          #name: comms-aws-config 
+      containers:
+      - image: comms:v0.2
+        name: comms
+        volumeMounts:
+        - name: kafka-config
+          mountPath: /etc/comms
+        #- name: aws-config
+          #mountPath: /.aws 
+        env:
+        - name: SPRING_CONFIG_LOCATION
+          value: /etc/comms/application.properties
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef: 
+              name: aws-access-key-id
+              key: password
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom: 
+            secretKeyRef:
+              name: aws-secret-access-key
+              key: password
+        #command: ["/bin/sh"]
+        #args: ["-c", "while true; do echo hello; sleep 10;done"] 
