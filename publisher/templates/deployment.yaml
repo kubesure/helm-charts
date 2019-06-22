@@ -18,7 +18,7 @@ metadata:
     app: publisher
     role: business
     type: event
-  name: comms
+  name: publisher
 spec:
   replicas: 1
   selector:
