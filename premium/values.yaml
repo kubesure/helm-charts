@@ -4,7 +4,7 @@ premium:
   replicaCount: 1
 
 imagepremium:
-  repository: premiumcalc
+  repository: bikertales/premiumcalc
   tag: 59d777a6b8993ea084b4e6424f052516028e2fd2
   pullPolicy: IfNotPresent
 imageredis:
