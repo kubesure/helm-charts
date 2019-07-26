@@ -1,11 +1,11 @@
 redis:
   replicaCount: 3
 premium:
-  replicaCount: 2
+  replicaCount: 1
 
 imagepremium:
   repository: premiumcalc
-  tag: v0.2
+  tag: 59d777a6b8993ea084b4e6424f052516028e2fd2
   pullPolicy: IfNotPresent
 imageredis:
   repository: redis
