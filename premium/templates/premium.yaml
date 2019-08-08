@@ -84,7 +84,7 @@ spec:
     spec:
       containers:
       - command: [sh, -c, source /redis-config/init.sh]
-        image: redis:{{.Values.imageredis.tag}}
+        image: redis:{{.Values.redis.tag}}
         name: redis
         ports: 
         - containerPort: 6379
@@ -102,6 +102,13 @@ spec:
           tcpSocket:
             port: 6379
           initialDelaySeconds: 5
+        resources:
+          requests:
+            memory: {{.Values.redis.memoryRequests}}
+            cpu: {{.Values.redis.cpuRequests}}
+          limits:
+            memory: {{.Values.redis.memoryLimits}}
+            cpu: {{.Values.redis.cpuLimits}}
       - command: [sh, -c, source /redis-config/sentinel.sh]
         image: redis:3.2.7-alpine
         name: sentinel
@@ -137,7 +144,7 @@ metadata:
     type: backend
   name: premiumcalc
 spec:
-  replicas: {{.Values.premium.replicaCount}}
+  replicas: {{.Values.premiumcalc.replicaCount}}
   selector:
     matchLabels:
       app: premium
@@ -151,7 +158,7 @@ spec:
         type: backend
     spec:
       containers:
-      - image: {{.Values.imagepremium.repository}}:{{.Values.imagepremium.tag}}
+      - image: {{.Values.premiumcalc.repository}}:{{.Values.premiumcalc.tag}}
         name: premiumcalc
         ports:
         - containerPort: 8000
@@ -170,6 +177,13 @@ spec:
             port: 8000
           initialDelaySeconds: 3
           periodSeconds: 10  
+        resources:
+          requests:
+            memory: {{.Values.premiumcalc.memoryRequests}}
+            cpu: {{.Values.premiumcalc.cpuRequests}}
+          limits:
+            memory: {{.Values.premiumcalc.memoryLimits}}
+            cpu: {{.Values.premiumcalc.cpuLimits}}
 ---
 apiVersion: v1
 kind: Service

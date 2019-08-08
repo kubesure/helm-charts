@@ -1,25 +1,25 @@
-redis:
-  replicaCount: 3
-premium:
-  replicaCount: 2
-
-imagepremium:
-  repository: premiumcalc
-  tag: v0.2
-  pullPolicy: IfNotPresent
-imageredis:
-  repository: redis
-  tag: 3.2.7-alpine    
-
 service:
   type: ClusterIP
   port: 8000
 
-resources: {}
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
-  #   cpu: 100m
-  #   memory: 128Mi
+redis: 
+  cpuRequests: 100m
+  memoryRequests: 200Mi
+  cpuLimits: 200m
+  memoryLimits: 250Mi
+  replicaCount: 3
+  repository: redis
+  tag: 3.2.7-alpine
+  pullPolicy: IfNotPresent
+premiumcalc:
+  cpuRequests: 100m
+  memoryRequests: 200Mi
+  cpuLimits: 200m
+  memoryLimits: 250Mi
+  replicaCount: 2
+  repository: bikertales/premiumcalc
+  tag: v0.2
+  pullPolicy: IfNotPresent
+
+
 
