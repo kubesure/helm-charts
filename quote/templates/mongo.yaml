@@ -42,11 +42,11 @@ spec:
             - db.serverStatus()
         resources:
           requests:
-            memory: {{.Values.quote.memoryRequests}}
-            cpu: {{.Values.quote.cpuRequests}}
+            memory: {{.Values.mongo.memoryRequests}}
+            cpu: {{.Values.mongo.cpuRequests}}
           limits:
-            memory: {{.Values.quote.memoryLimits}}
-            cpu: {{.Values.quote.cpuLimits}} 
+            memory: {{.Values.mongo.memoryLimits}}
+            cpu: {{.Values.mongo.cpuLimits}} 
   volumeClaimTemplates: 
   - metadata:
       name: data
