@@ -7,7 +7,7 @@ metadata:
     tier: backend
   name: party
 spec:
-  replicas: 1
+  replicas: {{.Values.party.replicaCount}}
   selector:
     matchLabels:
       app: party
@@ -21,13 +21,20 @@ spec:
         tier: backend
     spec:
       containers:
-      - image: bikertales/party:v1 
+      - image: {{.Values.party.repository}}:{{.Values.party.tag}}
         name: party
         ports:
         - containerPort: 50051
         env:
         - name: mongopartysvc
           value: mongo-party-0.mongopartysvc:27017,mongo-party-1.mongopartysvc:27017,mongo-party-2.mongopartysvc:27017
+      resources:
+        requests:
+          memory: {{.Values.party.memoryRequests}}
+          cpu: {{.Values.party.cpuRequests}}
+        limits:
+          memory: {{.Values.party.memoryLimits}}
+          cpu: {{.Values.party.cpuLimits}}
 ---
 apiVersion: v1
 kind: Service
