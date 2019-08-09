@@ -8,7 +8,6 @@ redis:
   cpuLimits: 200m
   memoryLimits: 250Mi
   replicaCount: 3
-<<<<<<< HEAD
   repository: redis
   tag: 3.2.7-alpine
   pullPolicy: IfNotPresent
@@ -20,15 +19,4 @@ premiumcalc:
   replicaCount: 2
   repository: bikertales/premiumcalc
   tag: v0.2
-=======
-premium:
-  replicaCount: 1
-
-imagepremium:
-  repository: bikertales/premiumcalc
-  tag: 59d777a6b8993ea084b4e6424f052516028e2fd2
->>>>>>> ead9b67967f322ea0030e2e31a9d5660eaac6f74
   pullPolicy: IfNotPresent
-
-
-
