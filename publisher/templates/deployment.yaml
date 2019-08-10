@@ -8,8 +8,8 @@ metadata:
     tier: event
 data:
   application.properties: |-
-    KAFKA_SERVER=52.90.158.247
-    KAFKA_SERVER_PORT=9092
+    KAFKA_SERVER= {{.Values.publisher.kafkaServerHost}}
+    KAFKA_SERVER_PORT= {{.Values.publisher.kafkaServerPort}}
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -20,7 +20,7 @@ metadata:
     type: event
   name: publisher
 spec:
-  replicas: 1
+  replicas:  {{.Values.publisher.replicaCount}}
   selector:
     matchLabels:
       app: publisher
@@ -38,7 +38,7 @@ spec:
         configMap:
           name: publisher-kafka-config
       containers:
-      - image: publisher:v0.2
+      - image: {{.Values.publisher.repository}}:{{.Values.publisher.tag}}
         name: publisher
         volumeMounts:
         - name: kafka-config
@@ -48,6 +48,13 @@ spec:
           value: /etc/publisher/application.properties
         #command: ["/bin/sh"]
         #args: ["-c", "while true; do echo hello; sleep 10;done"] 
+      resources:
+        requests:
+          memory: {{.Values.publisher.memoryRequests}}
+          cpu: {{.Values.publisher.cpuRequests}}
+        limits:
+          memory: {{.Values.publisher.memoryLimits}}
+          cpu: {{.Values.publisher.cpuLimits}} 
 ---
 apiVersion: v1
 kind: Service
