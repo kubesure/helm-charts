@@ -20,8 +20,8 @@ replicas: 3
 
 ## Uncomment to create a database user
 ##
-# mysqlUser: policy
-# mysqlPassword: policy123
+mysqlUser: policy
+mysqlPassword: policy123
 
 ## Allow unauthenticated access, uncomment to enable
 ##
@@ -29,7 +29,7 @@ replicas: 3
 
 ## Uncomment to Create a database
 ##
-# mysqlDatabase: policy
+mysqlDatabase: policy
 
 ## Configure pxc_strict_mode
 ## ref: https://www.percona.com/doc/percona-xtradb-cluster/LATEST/features/pxc-strict-mode.html
@@ -72,10 +72,14 @@ tolerations: []
 ## Configure resource requests and limits
 ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
 ##
-# resources:
-#  requests:
-#    memory: 256Mi
-#    cpu: 100m
+resources:
+  requests:
+    memory: 256Mi
+    cpu: 100m
+  limits:
+    memory: 356Mi
+    cpu: 200m
+ 
 
 configFiles:
   node.cnf: |+
