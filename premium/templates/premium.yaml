@@ -119,6 +119,15 @@ spec:
           name: data
         - mountPath: /redis-config
           name: config          
+        livenessProbe:
+          tcpSocket:
+            port: 26379
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          tcpSocket:
+            port: 26379
+          initialDelaySeconds: 5
       volumes: 
       - configMap: 
           defaultMode: 420
