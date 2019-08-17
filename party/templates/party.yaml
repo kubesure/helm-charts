@@ -25,6 +25,20 @@ spec:
         name: party
         ports:
         - containerPort: 50051
+        readinessProbe:
+          exec:
+            command:
+            - /opt/grpc-health-probe
+            - -addr=:50051
+          initialDelaySeconds: 5
+          periodSeconds: 15
+        livenessProbe:
+          exec:
+            command: 
+            - /opt/grpc-health-probe
+            - -addr=:50051
+          initialDelaySeconds: 5
+          periodSeconds: 15
         env:
         - name: mongopartysvc
           value: mongo-party-0.mongopartysvc:27017,mongo-party-1.mongopartysvc:27017,mongo-party-2.mongopartysvc:27017
