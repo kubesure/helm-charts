@@ -48,13 +48,27 @@ spec:
           value: /etc/publisher/application.properties
         #command: ["/bin/sh"]
         #args: ["-c", "while true; do echo hello; sleep 10;done"] 
-      resources:
-        requests:
-          memory: {{.Values.publisher.memoryRequests}}
-          cpu: {{.Values.publisher.cpuRequests}}
-        limits:
-          memory: {{.Values.publisher.memoryLimits}}
-          cpu: {{.Values.publisher.cpuLimits}} 
+        readinessProbe:
+          exec:
+            command: 
+            - /app/bin/grpc-health-probe
+            - -addr=:50051
+          initialDelaySeconds: 5
+          periodSeconds: 15
+        livenessProbe:
+          exec:
+            command: 
+            - /app/bin/grpc-health-probe
+            - -addr=:50051
+          initialDelaySeconds: 5
+          periodSeconds: 15
+        resources:
+          requests:
+            memory: {{.Values.publisher.memoryRequests}}
+            cpu: {{.Values.publisher.cpuRequests}}
+          limits:
+            memory: {{.Values.publisher.memoryLimits}}
+            cpu: {{.Values.publisher.cpuLimits}} 
 ---
 apiVersion: v1
 kind: Service
