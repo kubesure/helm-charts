@@ -57,3 +57,14 @@ spec:
           limits:
             memory: {{.Values.comms.memoryLimits}}
             cpu: {{.Values.comms.cpuLimits}} 
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 120
+          periodSeconds: 20          
+        livenessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 120
+          periodSeconds: 10     
