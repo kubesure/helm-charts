@@ -4,9 +4,9 @@ service:
 
 comms: 
   cpuRequests: 100m
-  memoryRequests: 200Mi
+  memoryRequests: 300Mi
   cpuLimits: 200m
-  memoryLimits: 250Mi
+  memoryLimits: 400Mi
   replicaCount: 2
   repository: bikertales/comms
   tag: v0.2
