@@ -36,7 +36,7 @@ data:
     #</match> 
     <match kubesure.**>
       @type elasticsearch
-      host 172.31.46.92
+      host elasticsearch-ip
       port 9200
       logstash_format false
       index_name kubesure.${tag}
