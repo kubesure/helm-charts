@@ -28,6 +28,17 @@ spec:
         name: receipt
         ports:
         - containerPort: 8000
+        readinessProbe:
+          httpGet:
+            path: /isready
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 20  
+        livenessProbe:
+          tcpSocket: 
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 20
       resources:
         requests:
           memory: {{.Values.receipt.memoryRequests}}
