@@ -2,6 +2,10 @@ kind: Service
 apiVersion: v1
 metadata:
  name: elasticsearch-ip
+ namespace: kube-system
+ labels:
+   app: fluentd
+   type: cluster
 spec:
   ports:
   - port: 9200
@@ -10,8 +14,12 @@ kind: Endpoints
 apiVersion: v1
 metadata:
   name: elasticsearch-ip
+  namespace: kube-system
+  labels:
+    app: fluentd
+    type: cluster
 subsets:
 - addresses:
-  - ip: 3.91.18.93
+  - ip: 54.80.221.87
   ports:
   - port: 9200
