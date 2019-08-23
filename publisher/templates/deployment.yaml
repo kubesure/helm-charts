@@ -1,3 +1,11 @@
+kind: Service
+apiVersion: v1
+metadata:
+ name: kafka
+spec:
+  type: ExternalName
+  externalName: ec2-54-80-221-87.compute-1.amazonaws.com
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -46,8 +54,8 @@ spec:
         env:
         - name: APP_CONFIG_FILE
           value: /etc/publisher/application.properties
-        #command: ["/bin/sh"]
-        #args: ["-c", "while true; do echo hello; sleep 10;done"] 
+        command: ["/bin/sh"]
+        args: ["-c", "while true; do echo hello; sleep 10;done"] 
         readinessProbe:
           exec:
             command: 
@@ -60,7 +68,7 @@ spec:
             command: 
             - /app/bin/grpc-health-probe
             - -addr=:50051
-          initialDelaySeconds: 5
+          initialDelaySeconds: 15
           periodSeconds: 15
         resources:
           requests:
