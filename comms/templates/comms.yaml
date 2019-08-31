@@ -7,7 +7,7 @@ metadata:
     type: event
   name: comms
 spec:
-  replicas: 1
+  replicas: {{.Values.comms.replicaCount}}
   selector:
     matchLabels:
       app: comms
@@ -28,7 +28,7 @@ spec:
         #configMap:
           #name: comms-aws-config 
       containers:
-      - image: comms:v0.2
+      - image: {{.Values.comms.repository}}:{{.Values.comms.tag}}
         name: comms
         volumeMounts:
         - name: kafka-config
@@ -50,3 +50,21 @@ spec:
               key: password
         #command: ["/bin/sh"]
         #args: ["-c", "while true; do echo hello; sleep 10;done"] 
+        resources:
+          requests:
+            memory: {{.Values.comms.memoryRequests}}
+            cpu: {{.Values.comms.cpuRequests}}
+          limits:
+            memory: {{.Values.comms.memoryLimits}}
+            cpu: {{.Values.comms.cpuLimits}} 
+        readinessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 120
+          periodSeconds: 20          
+        livenessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 120
+          periodSeconds: 10     

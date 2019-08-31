@@ -1,3 +1,10 @@
+apiVersion: v1
+data:
+  password: cG9saWN5MTIz
+kind: Secret
+metadata:
+  name: mysql-policy-pass
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -7,7 +14,7 @@ metadata:
     type: service
   name: policy
 spec:
-  replicas: 1
+  replicas: {{.Values.policy.replicaCount}}
   selector:
     matchLabels:
       app: policy
@@ -22,13 +29,27 @@ spec:
         type: service
     spec:
       containers:
-      - image: bikertales/policy:v1
+      - image: {{.Values.policy.repository}}:{{.Values.policy.tag}}
         name: policy
         ports:
         - containerPort: 8000
         env: 
         - name: mysqlpolicysvc
-          value: mysql-0.mysql
+          value: mysql-policy-pxc-0.mysql-policy-pxc
+        - name: POLICY_DB_USR
+          value: policy
+        - name: POLICY_DB_USR_PASS
+          valueFrom:
+            secretKeyRef:
+              name: mysql-policy-pass
+              key: password
+        resources:
+          requests:
+            memory: {{.Values.policy.memoryRequests}}
+            cpu: {{.Values.policy.cpuRequests}}
+          limits:
+            memory: {{.Values.policy.memoryLimits}}
+            cpu: {{.Values.policy.cpuLimits}}  
 ---
 apiVersion: v1
 kind: Service

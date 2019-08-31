@@ -1,0 +1,98 @@
+kind: Service
+apiVersion: v1
+metadata:
+ name: kafka
+spec:
+  type: ExternalName
+  externalName: ec2-54-80-221-87.compute-1.amazonaws.com
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: publisher-kafka-config
+  labels:
+    app: publisher
+    role: business
+    tier: event
+data:
+  application.properties: |-
+    KAFKA_SERVER= {{.Values.publisher.kafkaServerHost}}
+    KAFKA_SERVER_PORT= {{.Values.publisher.kafkaServerPort}}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: publisher
+    role: business
+    type: event
+  name: publisher
+spec:
+  replicas:  {{.Values.publisher.replicaCount}}
+  selector:
+    matchLabels:
+      app: publisher
+      role: business
+      type: event
+  template:
+    metadata:
+      labels:
+        app: publisher
+        role: business
+        type: event
+    spec:
+      volumes:
+      - name: kafka-config
+        configMap:
+          name: publisher-kafka-config
+      containers:
+      - image: {{.Values.publisher.repository}}:{{.Values.publisher.tag}}
+        name: publisher
+        volumeMounts:
+        - name: kafka-config
+          mountPath: /etc/publisher
+        env:
+        - name: APP_CONFIG_FILE
+          value: /etc/publisher/application.properties
+        command: ["/bin/sh"]
+        args: ["-c", "while true; do echo hello; sleep 10;done"] 
+        readinessProbe:
+          exec:
+            command: 
+            - /app/bin/grpc-health-probe
+            - -addr=:50051
+          initialDelaySeconds: 5
+          periodSeconds: 15
+        livenessProbe:
+          exec:
+            command: 
+            - /app/bin/grpc-health-probe
+            - -addr=:50051
+          initialDelaySeconds: 15
+          periodSeconds: 15
+        resources:
+          requests:
+            memory: {{.Values.publisher.memoryRequests}}
+            cpu: {{.Values.publisher.cpuRequests}}
+          limits:
+            memory: {{.Values.publisher.memoryLimits}}
+            cpu: {{.Values.publisher.cpuLimits}} 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: publisher
+    role: business
+    tier: event
+  name: publishersvc
+spec:
+  ports:
+  - port: 50051
+    protocol: TCP
+    targetPort: 50051
+    name: grpc-publisher
+  selector:
+    app: publisher
+    role: business
+    tier: event

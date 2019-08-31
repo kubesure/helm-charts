@@ -7,7 +7,7 @@ metadata:
   name: mongo-quote
 spec:
   serviceName: mongoquotesvc
-  replicas: 3
+  replicas: {{.Values.mongo.replicaCount}}
   selector:
     matchLabels:
       app: mongo-quote
@@ -19,7 +19,7 @@ spec:
         tier: backend
     spec:
       containers:
-      - image: mongo:4.0.9 
+      - image: {{.Values.mongo.repository}}:{{.Values.mongo.tag}} 
         name: mongo-quote
         command:
           - mongod  
@@ -39,7 +39,14 @@ spec:
             command:
             - mongo
             - --eval
-            - db.serverStatus() 
+            - db.serverStatus()
+        resources:
+          requests:
+            memory: {{.Values.mongo.memoryRequests}}
+            cpu: {{.Values.mongo.cpuRequests}}
+          limits:
+            memory: {{.Values.mongo.memoryLimits}}
+            cpu: {{.Values.mongo.cpuLimits}} 
   volumeClaimTemplates: 
   - metadata:
       name: data

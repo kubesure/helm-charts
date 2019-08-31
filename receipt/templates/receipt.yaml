@@ -7,7 +7,7 @@ metadata:
     type: service
   name: receipt
 spec:
-  replicas: 1
+  replicas: {{.Values.receipt.replicaCount}}
   selector:
     matchLabels:
       app: receipt
@@ -24,10 +24,28 @@ spec:
       - env:
         - name: mongoreceiptsvc
           value: mongo-receipt-0.mongoreceiptsvc:27017,mongo-receipt-1.mongoreceiptsvc:27017,mongo-receipt-2.mongoreceiptsvc:27017
-        image: bikertales/receipt:v1
+        image: {{.Values.receipt.repository}}:{{.Values.receipt.tag}}
         name: receipt
         ports:
         - containerPort: 8000
+        readinessProbe:
+          httpGet:
+            path: /isready
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 20  
+        livenessProbe:
+          tcpSocket: 
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 20
+      resources:
+        requests:
+          memory: {{.Values.receipt.memoryRequests}}
+          cpu: {{.Values.receipt.cpuRequests}}
+        limits:
+          memory: {{.Values.receipt.memoryLimits}}
+          cpu: {{.Values.receipt.cpuLimits}}
 ---
 apiVersion: v1
 kind: Service
