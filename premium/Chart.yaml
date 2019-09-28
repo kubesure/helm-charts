@@ -1,5 +1,4 @@
-apiVersion: valpha
-appVersion: "0.1"
+apiVersion: v1
 description: A Helm chart for calculating premium for a health product
 name: premium
-version: 0.1
+version: 0.2

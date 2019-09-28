@@ -1,5 +1,4 @@
-apiVersion: v0.1
-appVersion: "0.1"
-description: A Helm chart for logging in kubesure
+apiVersion: v1
+description: A Helm chart for logging in kubesure. Logs will be tailed by fluentd and stored and visualised in ELK.
 name: logging
-version: 0.1
+version: 0.2

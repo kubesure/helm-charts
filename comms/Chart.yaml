@@ -1,5 +1,4 @@
 apiVersion: v1
-appVersion: "1.0"
-description: A Helm chart for Kubernetes
+description: A kubesure chart to install comms service which sends communication to customer of various business events. 
 name: comms
-version: 0.1.0
+version: 0.2

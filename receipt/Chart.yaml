@@ -1,5 +1,4 @@
-apiVersion: v0.1alpha
-appVersion: "0.1"
+apiVersion: v1
 description: A Helm chart for kubesure receipt
 name: receipt
-version: 0.1
+version: 0.2

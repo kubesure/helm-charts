@@ -1,5 +1,4 @@
-apiVersion: v0.1
-appVersion: "0.1"
+apiVersion: v1
 description: A helm chart for kubesure quote
 name: quote
-version: 0.1
+version: 0.2

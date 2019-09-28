@@ -1,5 +1,4 @@
-apiVersion: v0.1alpha
-appVersion: "0.1"
-description: A Helm chart kubesure policy
+apiVersion: v1
+description: A Helm chart kubesure policy issurance of quote
 name: policy
-version: 0.1
+version: 0.2
