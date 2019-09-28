@@ -1,0 +1,114 @@
+apiVersion: v1
+entries:
+  comms:
+  - apiVersion: v1
+    created: "2019-09-28T20:35:53.0243601+05:30"
+    description: A kubesure chart to install comms service which sends communication
+      to customer of various business events.
+    digest: 64a5314a7b11f441a9c50a73cfe6a023a5b718576d2983eaa054bf0dde100717
+    name: comms
+    urls:
+    - https://s3.amazonaws.com/kubesure-releases/releases0.2/comms-0.2.tgz
+    version: "0.2"
+  ingress-egress:
+  - apiVersion: v1
+    created: "2019-09-28T20:35:53.0253615+05:30"
+    description: A Helm chart to allow ingress using the ingress api.
+    digest: d366a0d20b5c7a90ab54bbed6a492a07d2ffd83bea4da137a19bba8d93af511a
+    name: ingress-egress
+    urls:
+    - https://s3.amazonaws.com/kubesure-releases/releases0.2/ingress-egress-0.2.tgz
+    version: "0.2"
+  logging:
+  - apiVersion: v1
+    created: "2019-09-28T20:35:53.0263642+05:30"
+    description: A Helm chart for logging in kubesure. Logs will be tailed by fluentd
+      and stored and visualised in ELK.
+    digest: 16cb47aa5c58c23894b39145d53bcaf574a59cc772f9d12d3ec90268fb85db4e
+    name: logging
+    urls:
+    - https://s3.amazonaws.com/kubesure-releases/releases0.2/ingress-egress-0.2.tgz
+    version: "0.2"
+  party:
+  - apiVersion: v1
+    created: "2019-09-28T20:35:53.0273613+05:30"
+    description: A Helm chart for kubesure party service
+    digest: 903b09536ed02da582c57fbe7f87ce992d3eed3d997143d2347363f0bc4e2269
+    name: party
+    urls:
+    - https://s3.amazonaws.com/kubesure-releases/releases0.2/party-0.2.tgz
+    version: "0.2"
+  percona-xtradb-cluster:
+  - apiVersion: v1
+    appVersion: 5.7.19
+    created: "2019-09-28T20:35:53.0293581+05:30"
+    description: free, fully compatible, enhanced, open source drop-in replacement
+      for MySQL with Galera Replication (xtradb)
+    digest: 7f62a7e0aec4ef83a8441769bd25f2c20f213da9d8e4dedd73a3dd33f443b074
+    engine: gotpl
+    home: https://www.percona.com/
+    icon: https://www.percona.com/sites/all/themes/percona2015/logo.png
+    keywords:
+    - mysql
+    - percona
+    - database
+    - sql
+    - xtradb
+    - galera
+    - wsrep
+    maintainers:
+    - email: username.taken@gmail.com
+      name: paulczar
+    name: percona-xtradb-cluster
+    sources:
+    - https://github.com/kubernetes/charts
+    - https://github.com/percona-lab/percona-docker/
+    urls:
+    - https://s3.amazonaws.com/kubesure-releases/releases0.2/percona-xtradb-cluster-1.0.0.tgz
+    version: 1.0.0
+  policy:
+  - apiVersion: v1
+    created: "2019-09-28T20:35:53.0303587+05:30"
+    description: A Helm chart kubesure policy issurance of quote
+    digest: b8adf7b5a65f3f48af06a9ea28d890c005016f5250e1685fa9ebd3ea6ec46603
+    name: policy
+    urls:
+    - https://s3.amazonaws.com/kubesure-releases/releases0.2/policy-0.2.tgz
+    version: "0.2"
+  premium:
+  - apiVersion: v1
+    created: "2019-09-28T20:35:53.0313617+05:30"
+    description: A Helm chart for calculating premium for a health product
+    digest: a0cd69a33deacf80ddb98703df59b478c99840963bc6b0156049415bd31efddc
+    name: premium
+    urls:
+    - https://s3.amazonaws.com/kubesure-releases/releases0.2/premium-0.2.tgz
+    version: "0.2"
+  publisher:
+  - apiVersion: v1
+    created: "2019-09-28T20:35:53.0323596+05:30"
+    description: A Helm chart for publisher to publish policy issue events.
+    digest: 40447b3bd481a8d82fdef1f749fbf606eb8e576a05e10fee9bdad2ad52caef8c
+    name: publisher
+    urls:
+    - https://s3.amazonaws.com/kubesure-releases/releases0.2/publisher-0.2.tgz
+    version: "0.2"
+  quote:
+  - apiVersion: v1
+    created: "2019-09-28T20:35:53.0333592+05:30"
+    description: A helm chart for kubesure quote
+    digest: 2c823666207b4908768a82e86819010fd9abc03f76151e40ab3c9aa16e951792
+    name: quote
+    urls:
+    - https://s3.amazonaws.com/kubesure-releases/releases0.2/quote-0.2.tgz
+    version: "0.2"
+  receipt:
+  - apiVersion: v1
+    created: "2019-09-28T20:35:53.0343592+05:30"
+    description: A Helm chart for kubesure receipt
+    digest: 5908bfcacd8ce51a85d89e2a430a329e1520d007fc79aa75cf900517bbbc7002
+    name: receipt
+    urls:
+    - https://s3.amazonaws.com/kubesure-releases/releases0.2/receipt-0.2.tgz
+    version: "0.2"
+generated: "2019-09-28T20:35:53.0213638+05:30"
