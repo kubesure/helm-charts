@@ -54,8 +54,8 @@ spec:
         env:
         - name: APP_CONFIG_FILE
           value: /etc/publisher/application.properties
-        command: ["/bin/sh"]
-        args: ["-c", "while true; do echo hello; sleep 10;done"] 
+        #command: ["/bin/sh"]
+        #args: ["-c", "while true; do echo hello; sleep 10;done"] 
         readinessProbe:
           exec:
             command: 
