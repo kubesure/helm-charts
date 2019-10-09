@@ -4,7 +4,7 @@ metadata:
  name: kafka
 spec:
   type: ExternalName
-  externalName: ec2-54-80-221-87.compute-1.amazonaws.com
+  externalName: {{.Values.publisher.kafkaServerHost}}
 ---
 apiVersion: v1
 kind: ConfigMap
