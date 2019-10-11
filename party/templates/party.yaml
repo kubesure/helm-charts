@@ -48,7 +48,7 @@ spec:
             cpu: {{.Values.party.cpuRequests}}
           limits:
             memory: {{.Values.party.memoryLimits}}
-          cpu: {{.Values.party.cpuLimits}}
+            cpu: {{.Values.party.cpuLimits}}
 ---
 apiVersion: v1
 kind: Service
