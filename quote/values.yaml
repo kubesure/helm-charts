@@ -9,7 +9,7 @@ quote:
   memoryLimits: 250Mi
   replicaCount: 2
   repository: bikertales/quote
-  tag: v0.2
+  tag: 16c769e9a494baf5c790a3e1754a18967ef5d9c2
   pullPolicy: IfNotPresent
 mongo:
   cpuRequests: 100m
