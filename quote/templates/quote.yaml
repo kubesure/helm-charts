@@ -41,24 +41,13 @@ spec:
             port: 8000
           initialDelaySeconds: 5
           periodSeconds: 25
-      resources:
-        requests:
-          memory: {{.Values.quote.memoryRequests}}
-          cpu: {{.Values.quote.cpuRequests}}
-        limits:
-          memory: {{.Values.quote.memoryLimits}}
-          cpu: {{.Values.quote.cpuLimits}}
-      readinessProbe:
-        http:
-          path: /isready
-          port: 8000
-        initialDelaySeconds: 5
-        periodSeconds: 25
-      livenessProbe:
-        tcpSocket:
-          port: 8000
-        initialDelaySeconds: 5 
-        periodSeconds: 25 
+        resources:
+          requests:
+            memory: {{.Values.quote.memoryRequests}}
+            cpu: {{.Values.quote.cpuRequests}}
+          limits:
+            memory: {{.Values.quote.memoryLimits}}
+            cpu: {{.Values.quote.cpuLimits}}
 ---
 apiVersion: v1
 kind: Service
