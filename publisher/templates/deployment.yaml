@@ -53,6 +53,7 @@ spec:
       containers:
       - image: {{.Values.publisher.repository}}:{{.Values.publisher.tag}}
         name: publisher
+        imagePullPolicy: IfNotPresent
         volumeMounts:
         - name: kafka-config
           mountPath: /etc/publisher
