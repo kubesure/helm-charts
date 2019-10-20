@@ -1,0 +1,17 @@
+service:
+  type: ClusterIP
+  port: 80
+
+publisher: 
+  cpuRequests: 100m
+  memoryRequests: 200Mi
+  cpuLimits: 200m
+  memoryLimits: 250Mi
+  replicaCount: 2
+  repository: bikertales/publisher
+  tag: v0.2
+  pullPolicy: IfNotPresent
+  kafkaServerHost: pkc-4nym6.us-east-1.aws.confluent.cloud
+  kafkaServerPort: 9092
+  kafkaCCUserName: 
+  kafkaCCPassword:  
