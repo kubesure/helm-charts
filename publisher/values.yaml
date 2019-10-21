@@ -9,7 +9,7 @@ publisher:
   memoryLimits: 250Mi
   replicaCount: 2
   repository: bikertales/publisher
-  tag: v0.2
+  tag: 88990d2bec5ea14399335e450003cdc6cdee9d49
   pullPolicy: IfNotPresent
   kafkaServerHost: 52.90.158.247
   kafkaServerPort: 9092
