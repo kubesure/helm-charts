@@ -19,10 +19,9 @@ data:
     ssl.endpoint.identification.algorithm=https
     sasl.mechanism=PLAIN
     request.timeout.ms=20000
-    bootstrap.servers={{.Values.publisher.kafkaServerHost}}:{{.Values.publisher.kafkaServerPort}}
     retry.backoff.ms=500
-    sasl.jaas.config=org.apache.kafka.common.security.plain.PlainLoginModule required username="{{.Values.publisher.kafkaCCUserName}}" password="{{.Values.publisher.kafkaCCPassword}}";
     security.protocol=SASL_SSL
+    bootstrap.servers={{.Values.publisher.kafkaServerHost}}:{{.Values.publisher.kafkaServerPort}}    
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -60,6 +59,16 @@ spec:
         env:
         - name: APP_CONFIG_FILE
           value: /etc/publisher/application.properties
+        - name: CC_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: kafka-cc-secret
+              key: username
+        - name: CC_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: kafka-cc-secret
+              key: password          
         #command: ["/bin/sh"]
         #args: ["-c", "while true; do echo hello; sleep 10;done"] 
         readinessProbe:
