@@ -48,6 +48,20 @@ spec:
             secretKeyRef:
               name: aws-secret-access-key
               key: password
+        - name: CC_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: kafka-cc-secret
+              key: username
+        - name: CC_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: kafka-cc-secret
+              key: password          
+          valueFrom: 
+            secretKeyRef:
+              name: aws-secret-access-key
+              key: password      
         #command: ["/bin/sh"]
         #args: ["-c", "while true; do echo hello; sleep 10;done"] 
         resources:
