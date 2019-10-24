@@ -16,8 +16,12 @@ metadata:
     tier: event
 data:
   application.properties: |-
-    KAFKA_SERVER= {{.Values.publisher.kafkaServerHost}}
-    KAFKA_SERVER_PORT= {{.Values.publisher.kafkaServerPort}}
+    ssl.endpoint.identification.algorithm=https
+    sasl.mechanism=PLAIN
+    request.timeout.ms=20000
+    retry.backoff.ms=500
+    security.protocol=SASL_SSL
+    bootstrap.servers={{.Values.publisher.kafkaServerHost}}:{{.Values.publisher.kafkaServerPort}}    
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -48,12 +52,23 @@ spec:
       containers:
       - image: {{.Values.publisher.repository}}:{{.Values.publisher.tag}}
         name: publisher
+        imagePullPolicy: IfNotPresent
         volumeMounts:
         - name: kafka-config
           mountPath: /etc/publisher
         env:
         - name: APP_CONFIG_FILE
           value: /etc/publisher/application.properties
+        - name: CC_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: kafka-cc-secret
+              key: username
+        - name: CC_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: kafka-cc-secret
+              key: password          
         #command: ["/bin/sh"]
         #args: ["-c", "while true; do echo hello; sleep 10;done"] 
         readinessProbe:
