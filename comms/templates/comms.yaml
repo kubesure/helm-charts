@@ -30,6 +30,7 @@ spec:
       containers:
       - image: {{.Values.comms.repository}}:{{.Values.comms.tag}}
         name: comms
+        imagePullPolicy: {{.Values.comms.pullPolicy}}
         volumeMounts:
         - name: kafka-config
           mountPath: /etc/comms
@@ -41,29 +42,25 @@ spec:
         - name: AWS_ACCESS_KEY_ID
           valueFrom:
             secretKeyRef: 
-              name: aws-access-key-id
-              key: password
+              name: comms-aws-secret
+              key: aws-access-key-id
         - name: AWS_SECRET_ACCESS_KEY
           valueFrom: 
             secretKeyRef:
-              name: aws-secret-access-key
-              key: password
+              name: comms-aws-secret
+              key: aws-secret-access-key
         - name: CC_USERNAME
           valueFrom:
             secretKeyRef:
-              name: kafka-cc-secret
+              name: kafka-comms-secret
               key: username
         - name: CC_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: kafka-cc-secret
+              name: kafka-comms-secret
               key: password          
-          valueFrom: 
-            secretKeyRef:
-              name: aws-secret-access-key
-              key: password      
-        #command: ["/bin/sh"]
-        #args: ["-c", "while true; do echo hello; sleep 10;done"] 
+        command: ["/bin/sh"]
+        args: ["-c", "while true; do echo hello; sleep 10;done"] 
         resources:
           requests:
             memory: {{.Values.comms.memoryRequests}}
@@ -81,4 +78,4 @@ spec:
           tcpSocket:
             port: 8080
           initialDelaySeconds: 120
-          periodSeconds: 10     
+          periodSeconds: 10

@@ -11,7 +11,7 @@ data:
     ping.bucket=kubesure.test
     ping.key=ping.txt
     ## Confluent Cloud Configs
-    spring.kafka.bootstrap-servers={{.Values.publisher.kafkaServerHost}}:{{.Values.publisher.kafkaServerPort}}
+    spring.kafka.bootstrap-servers={{.Values.comms.kafka.host}}:{{.Values.comms.kafka.port}}
     spring.kafka.properties.sasl.mechanism=PLAIN
     spring.kafka.properties.security.protocol=SASL_SSL
     spring.kafka.properties.sasl.jaas.config=org.apache.kafka.common.security.plain.PlainLoginModule required username="${CC_USERNAME}" password="${CC_PASSWORD}";

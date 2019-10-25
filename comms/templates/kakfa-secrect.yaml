@@ -1,0 +1,23 @@
+{
+  "kind": "SealedSecret",
+  "apiVersion": "bitnami.com/v1alpha1",
+  "metadata": {
+    "name": "kafka-comms-secret",
+    "namespace": "default",
+  },
+  "spec": {
+    "template": {
+      "metadata": {
+        "name": "kafka-comms-secret",
+        "namespace": "default",
+      }
+    },
+    "encryptedData": {
+      "password": {{.Values.comms.kafka.password}},
+      "username": {{.Values.comms.kafka.username}}
+    }
+  },
+  "status": {
+    
+  }
+}
