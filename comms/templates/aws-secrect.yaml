@@ -1,0 +1,23 @@
+{
+  "kind": "SealedSecret",
+  "apiVersion": "bitnami.com/v1alpha1",
+  "metadata": {
+    "name": "comms-aws-secret",
+    "namespace": "default",
+  },
+  "spec": {
+    "template": {
+      "metadata": {
+        "name": "comms-aws-secret",
+        "namespace": "default",
+      }
+    },
+    "encryptedData": {
+      "aws-access-key-id": {{.Values.comms.aws.accessId}},
+      "aws-secret-access-key": {{.Values.comms.aws.accessKey}}
+    }
+  },
+  "status": {
+    
+  }
+}
