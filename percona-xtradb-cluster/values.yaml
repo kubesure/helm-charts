@@ -21,7 +21,6 @@ replicas: 3
 ## Uncomment to create a database user
 ##
 mysqlUser: policy
-mysqlPassword: policy123
 
 ## Allow unauthenticated access, uncomment to enable
 ##
