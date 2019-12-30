@@ -25,6 +25,7 @@ spec:
         - name: mongoreceiptsvc
           value: mongo-receipt-0.mongoreceiptsvc:27017,mongo-receipt-1.mongoreceiptsvc:27017,mongo-receipt-2.mongoreceiptsvc:27017
         image: {{.Values.receipt.repository}}:{{.Values.receipt.tag}}
+        imagePullPolicy: {{.Values.receipt.pullPolicy}} 
         name: receipt
         ports:
         - containerPort: 8000

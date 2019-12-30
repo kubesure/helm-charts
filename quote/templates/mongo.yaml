@@ -20,6 +20,7 @@ spec:
     spec:
       containers:
       - image: {{.Values.mongo.repository}}:{{.Values.mongo.tag}} 
+        imagePullPolicy: {{.Values.mongo.pullPolicy}} 
         name: mongo-quote
         command:
           - mongod  

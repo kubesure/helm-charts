@@ -27,6 +27,7 @@ spec:
         - name: partysvc
           value: partysvc
         image: {{.Values.quote.repository}}:{{.Values.quote.tag}}
+        imagePullPolicy: {{.Values.quote.pullPolicy}} 
         name: quote
         ports:
         - containerPort: 8000

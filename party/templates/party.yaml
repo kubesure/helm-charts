@@ -22,6 +22,7 @@ spec:
     spec:
       containers:
       - image: {{.Values.party.repository}}:{{.Values.party.tag}}
+        imagePullPolicy: {{.Values.party.pullPolicy}}
         name: party
         ports:
         - containerPort: 50051

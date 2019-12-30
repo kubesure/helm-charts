@@ -85,6 +85,7 @@ spec:
       containers:
       - command: [sh, -c, source /redis-config/init.sh]
         image: redis:{{.Values.redis.tag}}
+        imagePullPolicy: {{.Values.redis.pullPolicy}}
         name: redis
         ports: 
         - containerPort: 6379
@@ -170,6 +171,7 @@ spec:
     spec:
       containers:
       - image: {{.Values.premiumcalc.repository}}:{{.Values.premiumcalc.tag}}
+        imagePullPolicy: {{.Values.premiumcalc.pullPolicy}} 
         name: premiumcalc
         ports:
         - containerPort: 8000
