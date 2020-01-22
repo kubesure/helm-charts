@@ -1,0 +1,4 @@
+service: 
+  hostip: 54.175.235.82
+  hostname: pkc-4nym6.us-east-1.aws.confluent.cloud
+  port: 9092

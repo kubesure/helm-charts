@@ -1,0 +1,18 @@
+#kind: Service
+#apiVersion: v1
+#metadata:
+# name: kafka
+#spec:
+#  ports:
+#  - port: 9092
+#  clusterIP: None
+#---
+#kind: Endpoints
+#apiVersion: v1
+#metadata:
+# name: kafka
+#subsets:
+# - addresses:
+#     - ip: {{ .Values.service.host}}
+#   ports:
+#     - port: 9092
