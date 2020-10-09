@@ -1,0 +1,33 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: premium-gateway
+spec:
+  selector:
+    istio: ingressgateway # use istio default controller
+  servers:
+  - port:
+      number: 80
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: premium
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - premium-gateway
+  http:
+  - match:
+    - uri:
+        exact: /api/v1/healths/premiums
+    route:
+    - destination:
+        host: premiumcalc-svc
+        port:
+          number: 8000
