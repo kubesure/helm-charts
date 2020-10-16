@@ -1,0 +1,29 @@
+apiVersion: "security.istio.io/v1beta1"
+kind: "RequestAuthentication"
+metadata:
+  name: "keycloak-jwt"
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  jwtRules:
+  - issuer: "http://192.168.39.199:31171/auth/realms/kubesure"
+    jwksUri: "http://192.168.39.199:31171/auth/realms/kubesure/protocol/openid-connect/certs" 
+    forwardOriginalToken: true
+    outputPayloadToHeader: x-jwt-payload    
+---
+apiVersion: "security.istio.io/v1beta1"
+kind: "AuthorizationPolicy"
+metadata:
+  name: require-jwt
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  action: DENY
+  rules:
+  - from:
+    - source:
+        notRequestPrincipals: ["*"]              

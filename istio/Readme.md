@@ -1,7 +1,7 @@
 ## TODO
 
 1. Ingress
-   - [] JWT Request AuthN (keycloak) & Authz
+   - [] JWT Request AuthN (keycloak) & Authz  - Done. Need to figure out how jwksUri hostname can be a ingress ip and not node ip and nodeport  
    - [] TLS endpoint named host and certs 
    - [] MTLS
    - [] Rate Limits
