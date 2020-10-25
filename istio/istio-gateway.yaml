@@ -7,11 +7,21 @@ spec:
     istio: ingressgateway # use istio default controller
   servers:
   - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      #mode: SIMPLE
+      mode: MUTUAL
+      credentialName: esyhealth-credential
+    hosts:
+    - "esyhealth.kubesure.io"  
+  - port:
       number: 80
       name: http
       protocol: HTTP
     hosts:
-    - "*"
+    - "esyhealth.kubesure.io"
 ---
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
@@ -19,7 +29,7 @@ metadata:
   name: premium
 spec:
   hosts:
-  - "*"
+  - "esyhealth.kubesure.io"
   gateways:
   - premium-gateway
   http:
