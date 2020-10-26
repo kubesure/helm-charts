@@ -1,25 +1,24 @@
 ## TODO
 
 1. Ingress
-   - [] JWT Request AuthN (keycloak) & Authz  - Done. Need to figure out how jwksUri hostname can be a ingress ip and not node ip and nodeport  
-   - [] TLS endpoint and certs - done
-   - [] MTLS premium - done
-   - [] Rate Limits - premium - Rate limits are only possible as circut breaker to protect the client
+   - [X] JWT Request AuthN (keycloak) & Authz  - Done. Need to figure out how jwksUri hostname can be a ingress ip and not node ip and nodeport  
+   - [X] TLS endpoint and certs
+   - [X] MTLS premium 
+   - [X] Rate Limits - premium - Rate limits are only possible as circut breaker to protect the client
 2. Virtual service - Taffic management 
-   - [] A/B routing - premium quote/party 
-   - [] Version base canaries - premium quote/party 
-   - [] Host base routes - premium 
+   - [] Version based canaries - premium quote/party 
    - [] Weighted versions - premium
    - [] Load balancing - Random quote/party 
-   - [] Rate limits - premium Rate limits are only possible as circut breaker to protect the client
-   - [] timeouts - premium  
-   - [] circut breakers premium 
+   - [X] Host base routes - premium quote/party  
+   - [X] Rate limits - premium Rate limits are only possible as circut breaker to protect the client
+   - [X] timeouts - premium
+   - [X] circut breakers premium
    - [] Service entry for headless services - premium redis
    - [] Service entry for VM based IP's - Policy Mysql
 3. Security services
-   - [] Strict MTLS & secure naming for stateless servcies quote/party 
-   - [] Disabled MTLS for statelful sets with istio sidecare premium redis
-   - [] Port base destination routes quote/party
+   - [X] Strict MTLS & secure naming for stateless servcies premium 
+   - [X] Disabled MTLS for statelful sets with istio sidecare premium redis. Redis has replicaiton issue. 
+   - [] Port base destination routes N/A as of now  
 4. Egress
    - [] ???         
 
@@ -61,3 +60,7 @@ curl -X POST http://esyhealth.kubesure.io:${INGRESS_PORT}/api/v1/healths/premium
 -H "Content-Type: application/json" \
 -H "HOST: esyhealth.kubesure.io" \
 -d '{"code": "1A","sumInsured": "100000", "dateOfBirth": "1990-06-07"}' | jq
+
+## Circuit breaker
+
+kubectl exec "$FORTIO_POD" -c fortio -- /usr/bin/fortio curl -quiet http://premiumcalc-svc:8000/api/v1/healths/ premiums -H "Content-Type: application/json" -H "HOST: esyhealth.kubesure.io" -d '{"code": "1A","sumInsured": "100000", "dateOfBirth": "1990-06-07"}'

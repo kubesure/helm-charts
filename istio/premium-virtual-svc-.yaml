@@ -1,0 +1,44 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: premium
+spec:
+  hosts:
+  - "esyhealth.kubesure.io"
+  - "premiumcalc-svc"
+  gateways:
+  - premium-gateway
+  http:
+  - match:
+    - uri:
+        exact: /api/v1/healths/premiums
+    route:
+    - destination:
+        host: premiumcalc-svc
+        subset: v1
+    retries:
+      attempts: 3
+      perTryTimeout: 2s 
+      retryOn: gateway-error,connect-failure,refused-stream   
+    timeout: 1s    
+---
+apiVersion: networking.istio.io/v1beta1
+kind: DestinationRule
+metadata:
+  name: premium-destination
+spec:
+  host: premiumcalc-svc.default.svc.cluster.local
+  trafficPolicy:
+    connectionPool:
+      http:
+        http1MaxPendingRequests: 10
+        maxRequestsPerConnection: 10
+    outlierDetection:
+      consecutiveErrors: 1
+      interval: 1s
+      baseEjectionTime: 3m
+      maxEjectionPercent: 100
+  subsets:
+  - name: v1
+    labels:
+      version: v1
