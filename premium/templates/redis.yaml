@@ -1,0 +1,151 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: redis
+    role: master
+    tier: backend
+  name: redissvc
+spec:
+  ports:
+  - port: 6379
+    protocol: TCP
+    targetPort: 6379
+    name: tcp-redis-premium
+  selector:
+    app: redis
+    role: master
+    tier: backend
+  clusterIP: None
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-config
+  labels:
+    app: redis
+    role: master
+    tier: backend
+data:
+  master.conf: |- 
+    bind 0.0.0.0
+    port 6379
+    save 900 1
+    dir /redis-data
+  slave.conf: |-
+    bind 0.0.0.0
+    port 6379
+    dir .
+    slaveof redis-premium-master-0.redissvc.default.svc.cluster.local 6379
+  sentinel.conf: |- 
+    bind 0.0.0.0
+    port 26379
+    sentinel monitor redis-premium-master redis-premium-master-0.redissvc.default.svc.cluster.local 6379 2
+    sentinel parallel-syncs redis-premium-master 1
+    sentinel down-after-milliseconds redis-premium-master 10000
+    sentinel failover-timeout redis-premium-master 20000
+  sentinel.sh: |- 
+    #!/bin/bash
+    cp /redis-config/sentinel.conf /sentinel.conf
+    while ! ping -c 1 redis-premium-master-0.redissvc.default.svc.cluster.local; do
+      echo 'Waiting for server'
+      sleep 1
+    done
+    redis-sentinel /sentinel.conf
+  init.sh: |-
+    #!/bin/bash
+    if [[ ${HOSTNAME} == 'redis-premium-master-0' ]]; then
+      redis-server /redis-config/master.conf
+    else
+      redis-server /redis-config/slave.conf
+    fi
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis-premium-master
+  labels:
+    app: redis
+    role: master
+    tier: backend
+spec:
+  replicas: {{.Values.redis.replicaCount}}
+  serviceName: redissvc
+  selector:
+    matchLabels:
+      app: redis
+      role: master
+      tier: backend 
+  template:
+    metadata:
+      labels:
+        app: redis
+        role: master
+        tier: backend
+      annotations:
+        sidecar.istio.io/inject: "false"    
+    spec:
+      containers:
+      - command: [sh, -c, source /redis-config/init.sh]
+        image: redis:{{.Values.redis.tag}}
+        imagePullPolicy: {{.Values.redis.pullPolicy}}
+        name: redis
+        ports: 
+        - containerPort: 6379
+        volumeMounts: 
+        - mountPath: /redis-data
+          name: data
+        - mountPath: /redis-config
+          name: config
+        livenessProbe:
+          tcpSocket: 
+            port: 6379
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          tcpSocket:
+            port: 6379
+          initialDelaySeconds: 5
+        resources:
+          requests:
+            memory: {{.Values.redis.memoryRequests}}
+            cpu: {{.Values.redis.cpuRequests}}
+          limits:
+            memory: {{.Values.redis.memoryLimits}}
+            cpu: {{.Values.redis.cpuLimits}}
+      - command: [sh, -c, source /redis-config/sentinel.sh]
+        image: redis:3.2.7-alpine
+        name: sentinel
+        ports:
+        - containerPort: 26379
+        volumeMounts: 
+        - mountPath: /redis-data
+          name: data
+        - mountPath: /redis-config
+          name: config          
+        livenessProbe:
+          tcpSocket:
+            port: 26379
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          tcpSocket:
+            port: 26379
+          initialDelaySeconds: 5
+      volumes: 
+      - configMap: 
+          defaultMode: 420
+          name: redis-config
+        name: config
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+      annotations:
+        storageclass.kubernetes.io/is-default-class: "true"
+    spec:
+      #storageClassName: standard  
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi    

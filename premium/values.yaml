@@ -18,5 +18,6 @@ premiumcalc:
   memoryLimits: 250Mi
   replicaCount: 2
   repository: bikertales/premiumcalc
-  tag: v0.2
+  v1Tag: v0.2
+  v2Tag: f364458104c38103c6fbf15d2445306ade9d007d
   pullPolicy: IfNotPresent
