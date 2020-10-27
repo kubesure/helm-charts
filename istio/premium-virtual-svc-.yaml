@@ -10,12 +10,27 @@ spec:
   - premium-gateway
   http:
   - match:
+    - headers:
+        client-channel: 
+          exact: mobile
+        client-id: 
+          exact: paytm      
+    route:
+    - destination:
+        host: premiumcalc-svc
+        subset: v2
+  - match:
     - uri:
         exact: /api/v1/healths/premiums
     route:
     - destination:
         host: premiumcalc-svc
         subset: v1
+      weight: 100
+    #- destination:
+        #host: premiumcalc-svc
+        #subset: v2    
+      #weight: 50  
     retries:
       attempts: 3
       perTryTimeout: 2s 
@@ -29,6 +44,8 @@ metadata:
 spec:
   host: premiumcalc-svc.default.svc.cluster.local
   trafficPolicy:
+    loadBalancer:
+      simple: ROUND_ROBIN
     connectionPool:
       http:
         http1MaxPendingRequests: 10
@@ -42,3 +59,6 @@ spec:
   - name: v1
     labels:
       version: v1
+  - name: v2
+    labels:
+      version: v2    

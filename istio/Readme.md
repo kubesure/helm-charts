@@ -6,9 +6,9 @@
    - [X] MTLS premium 
    - [X] Rate Limits - premium - Rate limits are only possible as circut breaker to protect the client
 2. Virtual service - Taffic management 
-   - [] Version based canaries - premium quote/party 
-   - [] Weighted versions - premium
-   - [] Load balancing - Random quote/party 
+   - [X] Version based canaries - premium quote/party 
+   - [X] Weighted versions - premium
+   - [X] Load balancing - Random premium 
    - [X] Host base routes - premium quote/party  
    - [X] Rate limits - premium Rate limits are only possible as circut breaker to protect the client
    - [X] timeouts - premium
@@ -34,10 +34,22 @@ export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
 export SECURE_GATEWAY_URL=$INGRESS_HOST:$SECURE_INGRESS_PORT
 
 
-## mtls
+## mtls - V1
 
 curl -v -H "HOST: esyhealth.kubesure.io" \
 -H "Content-Type: application/json" \
+--cacert kubesure.io.crt \
+--cert client.esyhealth.kubesure.io.crt --key client.esyhealth.kubesure.io.key \
+--resolve "esyhealth.kubesure.io:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
+https://esyhealth.kubesure.io:${SECURE_INGRESS_PORT}/api/v1/healths/premiums \
+-d '{"code": "1A","sumInsured": "100000", "dateOfBirth": "1990-06-07"}' | jq
+
+## mtls - V2
+
+curl -v -H "HOST: esyhealth.kubesure.io" \
+-H "Content-Type: application/json" \
+-H "client-channel: mobile" \
+-H "client-id: paytm" \
 --cacert kubesure.io.crt \
 --cert client.esyhealth.kubesure.io.crt --key client.esyhealth.kubesure.io.key \
 --resolve "esyhealth.kubesure.io:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
