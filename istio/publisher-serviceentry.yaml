@@ -1,0 +1,17 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: ServiceEntry
+metadata:
+  name: publisher-cc-kafka
+spec:
+  hosts:
+  - pkc-4nym6.us-east-1.aws.confluent.cloud
+  addresses:
+  - 23.21.76.150
+  ports:
+  - number: 9092
+    name: kafka-cc-tcp
+    protocol: tcp
+  resolution: STATIC
+  location: MESH_EXTERNAL
+  endpoints:
+  - address: 23.21.76.150
