@@ -1,22 +1,7 @@
-{
-  "kind": "SealedSecret",
-  "apiVersion": "bitnami.com/v1alpha1",
-  "metadata": {
-    "name": "policy-mysql-secret",
-    "namespace": "default",
-  },
-  "spec": {
-    "template": {
-      "metadata": {
-        "name": "policy-mysql-secret",
-        "namespace": "default",
-      }
-    },
-    "encryptedData": {
-      "password": {{.Values.policy.mysql.password}}
-    }
-  },
-  "status": {
-    
-  }
-}
+apiVersion: v1
+kind: Secret
+metadata:
+  name: policy-mysql-secret
+type: Opaque
+data:
+  password: {{.Values.policy.mysql.password}}

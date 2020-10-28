@@ -29,9 +29,9 @@ spec:
         - containerPort: 8000
         env: 
         - name: mysqlpolicysvc
-          value: mysql-policy-pxc-0.mysql-policy-pxc
+          value: {{.Values.policy.mysql.svc}}
         - name: POLICY_DB_USR
-          value: policy
+          value: {{.Values.policy.mysql.user}}
         - name: POLICY_DB_USR_PASS
           valueFrom:
             secretKeyRef:
