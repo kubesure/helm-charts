@@ -1,4 +1,4 @@
-## TODO
+## TODO 1.1
 
 1. Ingress
    - [X] JWT Request AuthN (keycloak) & Authz  - Done. Need to figure out how jwksUri hostname can be a ingress ip and not node ip and nodeport  
@@ -13,14 +13,24 @@
    - [X] Rate limits - premium Rate limits are only possible as circut breaker to protect the client
    - [X] timeouts - premium
    - [X] circut breakers premium
-   - [] Service entry for headless services - premium redis
-   - [] Service entry for VM based IP's - Policy Mysql
+   - [X] Service entry for VM based MSQL DB - Policy
+   - [X] Service entry for external Kafka - Publisher
 3. Security services
    - [X] Strict MTLS & secure naming for stateless servcies premium 
    - [X] Disabled MTLS for statelful sets with istio sidecare premium redis. Redis has replicaiton issue. 
-   - [] Port base destination routes N/A as of now  
+    
 4. Egress
-   - [] ???         
+   - [X] To external Kafka - Works only once after SE creation - need to raise and issue with Istio
+      
+## TODO 1.2
+
+1. Virtual service 
+   - [] Service entry for headless services within K8s - premium redis
+2. Egress 
+   - [] AWS S3
+3. Security 
+   - [] Port base destination routes 
+4. [] configure all pending services in the mesh         
 
 ## ingress
 
