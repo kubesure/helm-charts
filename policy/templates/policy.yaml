@@ -1,3 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: policy
+    role: business
+    type: service
+  name: policy-svc
+spec:
+  ports:
+  - port: 8000
+    name: backend
+    targetPort: 8000
+  selector:
+    app: policy
+    role: business
+    type: service
+  type: NodePort
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -28,8 +47,10 @@ spec:
         ports:
         - containerPort: 8000
         env: 
-        - name: mysqlpolicysvc
+        - name: POLICY_DB_SVC
           value: {{.Values.policy.mysql.svc}}
+        - name: PUBLISHER_SVC
+          value: {{.Values.policy.publisher.svc}}  
         - name: POLICY_DB_USR
           value: {{.Values.policy.mysql.user}}
         - name: POLICY_DB_USR_PASS
@@ -43,31 +64,4 @@ spec:
             cpu: {{.Values.policy.cpuRequests}}
           limits:
             memory: {{.Values.policy.memoryLimits}}
-            cpu: {{.Values.policy.cpuLimits}}  
----
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    app: policy
-    role: business
-    type: service
-  name: policy-svc
-  annotations:
-    getambassador.io/config: |
-      apiVersion: ambassador/v1
-      kind: Mapping
-      name: policy-mapping
-      prefix: /api/v1/health/poicies
-      service: policy-svc:8000
-      rewrite: "" 
-spec:
-  ports:
-  - port: 8000
-    name: backend
-    targetPort: 8000
-  selector:
-    app: policy
-    role: business
-    type: service
-  type: NodePort  
+            cpu: {{.Values.policy.cpuLimits}}

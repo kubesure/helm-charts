@@ -12,6 +12,8 @@ policy:
   tag: a1d22c92461be5548b17c7ceab179aa0d5aa3ef2 
   pullPolicy: IfNotPresent
   mysql:
-    user: root
-    password: akM1Nmg1RUp1Tw==
-    svc: mysql-policy  
+    user: policy
+    password: cG9saWN5MTIz
+    svc: mysql-policy-external-svc  
+  publisher:
+    svc: publishersvc  
