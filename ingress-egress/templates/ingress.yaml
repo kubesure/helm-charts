@@ -1,4 +1,4 @@
-apiVersion: extensions/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: kubesure
@@ -7,19 +7,30 @@ spec:
   - http:
       paths:
       - path: /api/v1/healths/premiums
+        pathType: Prefix
         backend:
-          serviceName: premiumcalc-svc
-          servicePort: 8000
+          service: 
+            name: premiumcalc-svc
+            port: 
+              number: 8000
       - path: /api/v1/receipts
+        pathType: Prefix
         backend:
-          serviceName: receipt-svc
-          servicePort: 8000
+          service:
+            name: receipt-svc
+            port: 
+              number: 8000
       - path: /api/v1/healths/quotes
+        pathType: Prefix
         backend:
-          serviceName: quote-svc
-          servicePort: 8000
+          service:
+            name: quote-svc
+            port: 
+              number: 8000
       - path: /api/v1/health/poicies
+        pathType: Prefix
         backend:
-          serviceName: policy-svc
-          servicePort: 8000 
-          
+          service: 
+            name: policy-svc
+            port: 
+              number: 8000
