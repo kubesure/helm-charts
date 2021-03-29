@@ -37,18 +37,24 @@
 kubectl get svc istio-ingressgateway -n istio-system
 
 export INGRESS_HOST=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+
 export INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="http2")].port}')
+
 export SECURE_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="https")].port}')
+
 export TCP_INGRESS_PORT=$(kubectl -n istio-system get service istio-ingressgateway -o jsonpath='{.spec.ports[?(@.name=="tcp")].port}')
+
 export GATEWAY_URL=$INGRESS_HOST:$INGRESS_PORT
+
 export SECURE_GATEWAY_URL=$INGRESS_HOST:$SECURE_INGRESS_PORT
+
 
 
 ## mtls - V1
 
 curl -v -H "HOST: esyhealth.kubesure.io" \
 -H "Content-Type: application/json" \
---cacert kubesure.io.crt \
+--cacert kubesure.io.ca.crt \
 --cert client.esyhealth.kubesure.io.crt --key client.esyhealth.kubesure.io.key \
 --resolve "esyhealth.kubesure.io:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
 https://esyhealth.kubesure.io:${SECURE_INGRESS_PORT}/api/v1/healths/premiums \
@@ -60,7 +66,7 @@ curl -v -H "HOST: esyhealth.kubesure.io" \
 -H "Content-Type: application/json" \
 -H "client-channel: mobile" \
 -H "client-id: paytm" \
---cacert kubesure.io.crt \
+--cacert kubesure.io.ca.crt \
 --cert client.esyhealth.kubesure.io.crt --key client.esyhealth.kubesure.io.key \
 --resolve "esyhealth.kubesure.io:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
 https://esyhealth.kubesure.io:${SECURE_INGRESS_PORT}/api/v1/healths/premiums \
@@ -70,7 +76,7 @@ https://esyhealth.kubesure.io:${SECURE_INGRESS_PORT}/api/v1/healths/premiums \
 
 curl -v -H "HOST: esyhealth.kubesure.io" \
 -H "Content-Type: application/json" \
---cacert kubesure.io.crt \
+--cacert kubesure.io.ca.crt \
 --resolve "esyhealth.kubesure.io:$SECURE_INGRESS_PORT:$INGRESS_HOST" \
 https://esyhealth.kubesure.io:${SECURE_INGRESS_PORT}/api/v1/healths/premiums \
 -d '{"code": "1A","sumInsured": "100000", "dateOfBirth": "1990-06-07"}' | jq
