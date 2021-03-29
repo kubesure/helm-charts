@@ -5,7 +5,7 @@
 openssl req -x509 -sha256 -nodes -days 365 \
 -newkey rsa:2048 \
 -subj '/O=Kubesure Inc./CN=kubesure.io' \
--keyout kubesure.io.key \
+-keyout kubesure.io.ca.key \
 -out kubesure.io.crt
 
 openssl x509 --in kubesure.io.ca.crt -text --noout
